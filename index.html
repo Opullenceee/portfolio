@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Izza Usman - Computer Science Student </title>
+<meta name="description" content="Izza Usman — Grade 11 ICS student, frontend developer, and UI/UX enthusiast building toward a future in Artificial Intelligence." />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90"> 💗 </text></svg>'>
+</head>
+<body>
+<!-- ============ CUSTOM CURSOR ============ -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true">
+  <svg viewBox="0 0 24 24" width="16" height="16"><path fill="#CB8D95" d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2.2 4.5 6 4c2.3-.3 4.2 1 6 3.4C13.8 5 15.7 3.7 18 4c3.8.5 5.6 4.4 4 7.7C21.5 16.4 12 21 12 21z"/></svg>
+</div>
+<canvas id="sparkleTrail" aria-hidden="true"></canvas>
+
+<!-- ============ SCROLL PROGRESS ============ -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">Izza<span>.</span></a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#education" class="nav-link">Education</a></li>
+      <li><a href="#github" class="nav-link">GitHub</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchToggle" aria-label="Search site">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 2a8 8 0 105.3 14.0l4.85 4.84 1.4-1.4-4.84-4.85A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-panel" id="searchPanel">
+    <div class="search-inner">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 2a8 8 0 105.3 14.0l4.85 4.84 1.4-1.4-4.84-4.85A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search sections… try 'projects' or 'skills'" autocomplete="off"/>
+      <button id="searchClose" aria-label="Close search">✕</button>
+    </div>
+    <ul id="searchResults" class="search-results"></ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="home" class="hero">
+  <canvas id="heroParticles" class="hero-canvas"></canvas>
+
+  <div class="hero-decor" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <svg class="star star-1" viewBox="0 0 24 24"><path fill="#FFDBDD" d="M12 0l2.6 8.2L22 11l-7.4 2.8L12 22l-2.6-8.2L2 11l7.4-2.8z"/></svg>
+    <svg class="star star-2" viewBox="0 0 24 24"><path fill="#E5E6B5" d="M12 0l2.6 8.2L22 11l-7.4 2.8L12 22l-2.6-8.2L2 11l7.4-2.8z"/></svg>
+    <svg class="star star-3" viewBox="0 0 24 24"><path fill="#CB8D95" d="M12 0l2.6 8.2L22 11l-7.4 2.8L12 22l-2.6-8.2L2 11l7.4-2.8z"/></svg>
+    <svg class="star star-4" viewBox="0 0 24 24"><path fill="#F3D8CE" d="M12 0l2.6 8.2L22 11l-7.4 2.8L12 22l-2.6-8.2L2 11l7.4-2.8z"/></svg>
+    <span class="ring ring-1"></span>
+    <span class="ring ring-2"></span>
+    <span class="dot-cluster"><i></i><i></i><i></i></span>
+  </div>
+
+  <div class="hero-inner" id="heroInner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow" data-aos="fade-down">Portfolio — 2026</p>
+      <h1 class="hero-name">
+        <span class="line">IZZA</span>
+        <span class="line line-outline">USMAN</span>
+      </h1>
+      <p class="hero-role">I'm a <span id="typedRole" class="typed-role"></span></p>
+      <p class="hero-sub">Computer Science Student · HTML · CSS · JavaScript · Python · Passionate about AI &amp; Technology</p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          View Projects
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M5 12h13m0 0l-5-5m5 5l-5 5"/></svg>
+        </a>
+        <a href="https://github.com/opullenceee" target="_blank" rel="noopener" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.3 9.3 0 015 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.26 10.26 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <a href="#contact" class="btn btn-outline">Contact Me</a>
+      </div>
+    </div>
+
+
+   <div class="hero-character" id="heroCharacter">
+    <div class="char-shadow"></div>
+
+    <img
+        src="./character.png"
+        alt="Pixel character"
+        class="hero-character-img">
+</div>
+</div>
+
+  <a href="#about" class="scroll-cue" aria-label="Scroll to About">
+    <span></span>
+  </a>
+</header>
+
+<main>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="section about">
+    <div class="section-inner">
+      <p class="section-eyebrow" data-aos="fade-up">About</p>
+      <h2 class="section-title" data-aos="fade-up">A little about me</h2>
+
+      <div class="about-grid">
+        <p class="about-text" data-aos="fade-up" data-aos-delay="100">
+          Hi! I'm <strong>Izza Usman</strong>, a Grade 11 ICS student passionate about AI, web development,
+          and UI/UX. I enjoy building modern web applications using HTML, CSS and JavaScript while learning
+          Python. My goal is to study Computer Science abroad and specialize in Artificial Intelligence —
+          turning curiosity into interfaces people actually enjoy using.
+        </p>
+
+        <div class="about-highlights" data-aos="fade-up" data-aos-delay="200">
+          <span class="pill">Grade 11 ICS</span>
+          <span class="pill">Learning Python</span>
+          <span class="pill">Problem Solver</span>
+          <span class="pill">Open Source Learner</span>
+          <span class="pill">Passion for UI/UX</span>
+          <span class="pill">Passion for AI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills" class="section skills">
+    <div class="section-inner">
+      <p class="section-eyebrow" data-aos="fade-up">Skills</p>
+      <h2 class="section-title" data-aos="fade-up">What I build with</h2>
+
+      <div class="skills-columns">
+        <div class="skills-col" data-aos="fade-up" data-aos-delay="100">
+          <h3>Programming</h3>
+          <ul class="skill-bars">
+            <li><span>HTML</span><i style="--w:95%"></i></li>
+            <li><span>CSS</span><i style="--w:92%"></i></li>
+            <li><span>JavaScript</span><i style="--w:85%"></i></li>
+            <li><span>Python <em>(learning)</em></span><i style="--w:55%"></i></li>
+            <li><span>C++</span><i style="--w:60%"></i></li>
+          </ul>
+        </div>
+
+        <div class="skills-col" data-aos="fade-up" data-aos-delay="200">
+          <h3>Tools</h3>
+          <div class="tool-grid">
+            <span class="tool-chip">Git</span>
+            <span class="tool-chip">GitHub</span>
+            <span class="tool-chip">Canva</span>
+            <span class="tool-chip">Figma</span>
+            <span class="tool-chip">VS Code</span>
+            <span class="tool-chip">Chart.js</span>
+            <span class="tool-chip">GSAP</span>
+            <span class="tool-chip">AOS</span>
+            <span class="tool-chip">Three.js</span>
+          </div>
+        </div>
+      </div>
+
+      <canvas id="skillsRadar" class="skills-radar" data-aos="fade-up" data-aos-delay="300"></canvas>
+    </div>
+  </section>
+
+ <!-- ============ PROJECTS ============ -->
+<section id="projects" class="section projects">
+  <div class="section-inner">
+    <p class="section-eyebrow" data-aos="fade-up">Projects</p>
+    <h2 class="section-title" data-aos="fade-up">Things I've built</h2>
+
+    <div class="project-grid">
+
+      <article class="project-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="project-body">
+          <h3>Pixel Calculator</h3>
+          <p>A playful, pastel-skinned calculator built with vanilla JS — precise arithmetic with a soft, tactile interface.</p>
+          <div class="project-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Opullenceee/Pixel-Calculator" target="_blank" rel="noopener">Code</a>
+            <a href="https://opullenceee.github.io/Pixel-Calculator/" target="_blank" rel="noopener">
+  Live Demo
+</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="project-body">
+          <h3>Weatherly</h3>
+          <p>A minimal weather dashboard pulling live forecasts, with smooth condition-based animations and gradients.</p>
+          <div class="project-tags">
+            <span>JavaScript</span>
+            <span>API</span>
+            <span>CSS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Opullenceee/Weatherly" target="_blank" rel="noopener">Code</a>
+            <a href="https://opullenceee.github.io/weatherly/" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="project-body">
+          <h3>Student Management System</h3>
+          <p>A CRUD-based system to track student records, grades and attendance with a clean, readable dashboard.</p>
+          <div class="project-tags">
+            <span>Python</span>
+            <span>Data</span>
+            <span>UI/UX</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Opullenceee/Student-Management-System" target="_blank" rel="noopener">Code</a>
+            <a href="https://opullenceee.github.io/Student-Management-System/" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="project-body">
+          <h3>Octograph - GitHub Profile Analyzer</h3>
+          <p>Fetches public GitHub data and visualizes languages, stars and activity — the same engine that powers the section below.</p>
+          <div class="project-tags">
+            <span>JavaScript</span>
+            <span>GitHub API</span>
+            <span>Chart.js</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/opullenceee" target="_blank" rel="noopener">Code</a>
+            href="#" onclick="return false;"
+class="disabled"
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education" class="section education">
+    <div class="section-inner">
+      <p class="section-eyebrow" data-aos="fade-up">Education</p>
+      <h2 class="section-title" data-aos="fade-up">Where I'm headed</h2>
+
+      <div class="timeline">
+        <div class="timeline-item" data-aos="fade-right">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <h3>Grade 11 · ICS</h3>
+            <p>Currently studying Computer Science, Physics and Mathematics.</p>
+            <div class="subject-tags">
+              <span>Computer Science</span><span>Physics</span><span>Mathematics</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="150">
+          <div class="timeline-dot future"></div>
+          <div class="timeline-card future-card">
+            <h3>Future Goal</h3>
+            <p>Bachelor's in Computer Science, specializing in Artificial Intelligence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GITHUB ============ -->
+  <section id="github" class="section github">
+    <div class="section-inner">
+      <p class="section-eyebrow" data-aos="fade-up">GitHub</p>
+      <h2 class="section-title" data-aos="fade-up">Live from my GitHub</h2>
+      <p class="github-username" data-aos="fade-up">@<span id="ghUsername">opullenceee</span></p>
+
+      <div id="githubContent" data-aos="fade-up" data-aos-delay="100">
+        <div class="gh-stats-grid" id="ghStatsGrid">
+          <div class="gh-stat-card"><span class="gh-stat-num" id="ghRepos">–</span><span class="gh-stat-label">Repositories</span></div>
+          <div class="gh-stat-card"><span class="gh-stat-num" id="ghFollowers">–</span><span class="gh-stat-label">Followers</span></div>
+          <div class="gh-stat-card"><span class="gh-stat-num" id="ghFollowing">–</span><span class="gh-stat-label">Following</span></div>
+          <div class="gh-stat-card"><span class="gh-stat-num" id="ghGists">–</span><span class="gh-stat-label">Gists</span></div>
+        </div>
+
+        <div class="gh-two-col">
+          <div class="gh-panel">
+            <h3>Top Languages</h3>
+            <canvas id="ghLangChart"></canvas>
+          </div>
+          <div class="gh-panel">
+            <h3>Repositories</h3>
+            <div id="ghRepoList" class="gh-repo-list"><p class="gh-loading">Loading repositories…</p></div>
+          </div>
+        </div>
+
+        <div class="gh-panel gh-activity">
+          <h3>Recent Activity</h3>
+          <ul id="ghActivityList" class="gh-activity-list"><li class="gh-loading">Loading activity…</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section contact">
+  <div class="section-inner">
+
+    <p class="section-eyebrow" data-aos="fade-up">Contact</p>
+
+    <h2 class="section-title" data-aos="fade-up">
+      Let's build something
+    </h2>
+
+    <p class="contact-sub" data-aos="fade-up" data-aos-delay="100">
+      Have a project, internship or just want to say hi? My inbox is always open.
+    </p>
+
+    <div class="contact-grid">
+
+      <!-- Contact Form -->
+      <form
+        id="contactForm"
+        class="contact-form"
+        data-aos="fade-up"
+        data-aos-delay="150"
+        novalidate
+      >
+
+        <div class="form-row">
+          <label for="cf-name">Name</label>
+          <input
+            type="text"
+            id="cf-name"
+            name="name"
+            required
+            placeholder="Your name">
+        </div>
+
+        <div class="form-row">
+          <label for="cf-email">Email</label>
+          <input
+            type="email"
+            id="cf-email"
+            name="email"
+            required
+            placeholder="you@example.com">
+        </div>
+
+        <div class="form-row">
+          <label for="cf-message">Message</label>
+          <textarea
+            id="cf-message"
+            name="message"
+            rows="5"
+            required
+            placeholder="Tell me about your idea…"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="cfSubmit">
+          <span class="btn-label">Send Message</span>
+
+          <svg
+            class="btn-heart"
+            viewBox="0 0 24 24"
+            width="16"
+            height="16">
+
+            <path
+              fill="currentColor"
+              d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2.2 4.5 6 4c2.3-.3 4.2 1 6 3.4C13.8 5 15.7 3.7 18 4c3.8.5 5.6 4.4 4 7.7C21.5 16.4 12 21 12 21z"/>
+          </svg>
+
+        </button>
+
+        <p
+          class="form-success"
+          id="formSuccess"
+          role="status"
+          style="display:none;">
+
+          ✅ Thanks! Your message has been sent. I'll reply soon. 🤍
+
+        </p>
+
+      </form>
+
+      <!-- Contact Links -->
+
+      <div
+        class="contact-links"
+        data-aos="fade-up"
+        data-aos-delay="250">
+
+        <a href="mailto:idkitsizza@gmail.com" class="contact-link">
+          <span class="contact-icon">✉</span>
+          <span>
+            <strong>Email</strong><br>
+            idkitsizza@gmail.com
+          </span>
+        </a>
+
+        <a
+          href="https://github.com/opullenceee"
+          target="_blank"
+          rel="noopener"
+          class="contact-link">
+
+          <span class="contact-icon">⌥</span>
+
+          <span>
+            <strong>GitHub</strong><br>
+            @opullenceee
+          </span>
+
+        </a>
+
+        <a
+          href="https://linkedin.com/in/opullencee"
+          target="_blank"
+          rel="noopener"
+          class="contact-link">
+
+          <span class="contact-icon">in</span>
+
+          <span>
+            <strong>LinkedIn</strong><br>
+            Opullencee
+          </span>
+
+        </a>
+
+        <a
+          href="https://instagram.com/opullencee"
+          target="_blank"
+          rel="noopener"
+          class="contact-link">
+
+          <span class="contact-icon">◎</span>
+
+          <span>
+            <strong>Instagram</strong><br>
+            @opullencee
+          </span>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="#home" class="nav-logo">Izza<span>.</span></a>
+    <p>Designed &amp; built by Izza Usman · © <span id="year"></span></p>
+    <div class="footer-socials">
+      <a href="https://github.com/opullenceee" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+      <a href="https://linkedin.com/in/opullencee" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+      <a href="https://instagram.com/opullencee" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="mailto:idkitsizza@gmail.com" aria-label="Email">✉</a>
+    </div>
+  </div>
+</footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 5l7 7-1.4 1.4L13 8.8V19h-2V8.8L6.4 13.4 5 12z"/></svg>
+</button>
+
+<!-- ============ LIBRARIES (CDN) ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<!-- Your JavaScript -->
+<script src="script.js" defer></script>
+
+</body>
+</html>
