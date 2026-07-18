@@ -10,6 +10,7 @@ This project was created as a first-year Computer Science portfolio to showcase 
 # 🌐 Live Demo
 
 https://portfolio-opullencee.vercel.app/
+
 ---
 
 # Project Overview
