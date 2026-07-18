@@ -4,6 +4,7 @@ Izza's Portfolio is a modern, elegant, and fully responsive personal portfolio w
 
 This project was created as a first-year Computer Science portfolio to showcase my skills, projects, creativity, and passion for frontend development while practicing modern web design, animations, JavaScript interactions, and responsive UI/UX.
 
+
 ---
 
 # 🌐 Live Demo
