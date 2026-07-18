@@ -383,7 +383,7 @@
       return "just now";
     }
 async function fetchJSON() {
-  const res = await fetch("/api/github")
+  const res = await fetch("/api/github");
 
   if (!res.ok) {
     throw new Error(`Backend API error ${res.status}`);
