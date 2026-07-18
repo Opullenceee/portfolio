@@ -554,8 +554,10 @@ input, textarea{ font-family:inherit; cursor:auto; }
     left: 0;
     right: 0;
     height: calc(100vh - var(--nav-h));
+
     background: rgba(251,244,236,.98);
     backdrop-filter: blur(20px);
+
     flex-direction: column;
     align-items:center;
     justify-content:center;
