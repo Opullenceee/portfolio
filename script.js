@@ -57,19 +57,27 @@
 
   backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-  /* ---------------- Mobile menu ---------------- */
-  const menuToggle = document.getElementById("menuToggle");
-  const navLinksList = document.getElementById("navLinks");
+ /* ---------------- Mobile menu ---------------- */
+const menuToggle = document.getElementById("menuToggle");
+const navLinksList = document.getElementById("navLinks");
+
+if(menuToggle && navLinksList){
+
   menuToggle.addEventListener("click", () => {
     const open = navLinksList.classList.toggle("open");
     menuToggle.classList.toggle("open", open);
     menuToggle.setAttribute("aria-expanded", open);
   });
-  navLinksList.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-    navLinksList.classList.remove("open");
-    menuToggle.classList.remove("open");
-  }));
 
+  navLinksList.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      navLinksList.classList.remove("open");
+      menuToggle.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+}
   /* ---------------- Search ---------------- */
   const searchToggle = document.getElementById("searchToggle");
   const searchPanel = document.getElementById("searchPanel");
