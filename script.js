@@ -382,25 +382,28 @@
       }
       return "just now";
     }
+async function fetchJSON() {
+  const res = await fetch("https://portfolio-opullencee.vercel.app/api/github");
 
-    async function fetchJSON(url){
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`GitHub API error ${res.status}`);
-      return res.json();
-    }
+  if (!res.ok) {
+    throw new Error(`Backend API error ${res.status}`);
+  }
 
-    async function loadGitHub() {
-  try {
-    const GH_USERNAME = "opullenceee";
+  return res.json();
+}
 
-    const user = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}`);
+    async function loadGitHub(){
+      try {
+      const github = await fetchJSON();
 
-    els.repos.textContent = user.public_repos ?? "–";
-    els.followers.textContent = user.followers ?? "–";
-    els.following.textContent = user.following ?? "–";
-    els.gists.textContent = user.public_gists ?? "–";
+const user = github.user;
+const repos = github.repos;
+const events = github.events;
 
-    const repos = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}/repos?sort=updated&per_page=100`);
+els.repos.textContent = user.public_repos ?? "–";
+els.followers.textContent = user.followers ?? "–";
+els.following.textContent = user.following ?? "–";
+els.gists.textContent = user.public_gists ?? "–";
 
         // repo list (top 6 by recency)
         const topRepos = [...repos].slice(0, 6);
@@ -447,7 +450,7 @@
 
         // recent activity
         try {
-          const events = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}/events/public?per_page=8`);
+        // Events already loaded from the Vercel backend
           if (events.length) {
             activityList.innerHTML = events.slice(0, 8).map(ev => {
               const map = {
