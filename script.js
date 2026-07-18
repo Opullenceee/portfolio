@@ -389,15 +389,18 @@
       return res.json();
     }
 
-    async function loadGitHub(){
-      try {
-        const user = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}`);
-        els.repos.textContent = user.public_repos ?? "–";
-        els.followers.textContent = user.followers ?? "–";
-        els.following.textContent = user.following ?? "–";
-        els.gists.textContent = user.public_gists ?? "–";
+    async function loadGitHub() {
+  try {
+    const GH_USERNAME = "opullenceee";
 
-        const repos = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}/repos?sort=updated&per_page=100`);
+    const user = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}`);
+
+    els.repos.textContent = user.public_repos ?? "–";
+    els.followers.textContent = user.followers ?? "–";
+    els.following.textContent = user.following ?? "–";
+    els.gists.textContent = user.public_gists ?? "–";
+
+    const repos = await fetchJSON(`https://api.github.com/users/${GH_USERNAME}/repos?sort=updated&per_page=100`);
 
         // repo list (top 6 by recency)
         const topRepos = [...repos].slice(0, 6);
