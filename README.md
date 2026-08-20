@@ -1,347 +1,315 @@
+<div align="center">
+
+<img src="character.png" width="140" alt="Portfolio pixel character" />
+
 # Izza Usman — Portfolio
 
-A personal developer portfolio showcasing my journey in Computer Science, software development, and AI-focused projects.
+**A personal developer portfolio built while learning Computer Science, software development, and AI.**
 
+[![Made with HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](#)
+[![Made with CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](#)
+[![Made with JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](#)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=flat&logo=vercel&logoColor=white)](#)
 
-# Overview
+</div>
 
-This repository contains the source code for my personal portfolio website — a single-page, interactive portfolio built to showcase my skills, projects, education, development journey, and GitHub activity.
+---
 
-Rather than functioning as a simple static resume, the portfolio combines frontend development, animation, data visualization, API integration, and a secure serverless backend to create a dynamic experience.
+## Overview
 
-I am a Grade 11 ICS student building toward a future in Computer Science, Artificial Intelligence, and software development, with a focus on learning through meaningful, practical projects.
+This repository contains the source code for my personal portfolio — a single-page, interactive site that showcases my skills, projects, education, and live GitHub activity.
 
-# Portfolio Sections
+Rather than being a static resume, it combines:
 
-* Hero / introduction
-* About me
-* Technical skills
-* Featured projects
-* Education timeline
-* Live GitHub statistics
-* GitHub language analytics
-* Recent GitHub activity
-* Contact form
-* Responsive interface
+- Frontend development with animation-heavy UI
+- Data visualization (skills radar + GitHub language stats)
+- Live GitHub API integration
+- A serverless backend that keeps my GitHub token private
+- Responsive design across devices
 
+I'm a Grade 11 ICS student building toward Computer Science, AI, and software development — this portfolio is both a showcase and a learning project, and it will keep evolving.
 
-# Tech Stack
+---
 
-Technology	Purpose
-HTML5	Semantic page structure and content
-CSS3	Layout, responsive design, styling, and visual effects
-Vanilla JavaScript	Application logic, interaction, API communication, and DOM updates
-GSAP	Advanced animations
-ScrollTrigger	Scroll-based animation control
-AOS	Scroll reveal and entrance animations
-Three.js	Interactive hero particle canvas
-Typed.js	Animated text in the hero section
-Chart.js	Skills radar and GitHub language visualization
-EmailJS	Contact form delivery without a traditional backend
-Vercel	Serverless backend and deployment
-GitHub REST API	Live GitHub profile, repository, and activity data
+## Live Preview
 
-All frontend libraries are loaded through CDN links in index.html, so no frontend dependency installation or build step is required.
+> Add your deployed link here once live, e.g. `https://izzausman.vercel.app`
 
+---
 
-# Why Vercel?
+## Table of Contents
 
-The GitHub API requires authentication for the requests used by this portfolio. Instead of exposing the GitHub token inside browser-accessible JavaScript, the token is stored as a private Vercel environment variable.
+- [Portfolio Sections](#portfolio-sections)
+- [Tech Stack](#tech-stack)
+- [Why a Serverless Backend?](#why-a-serverless-backend)
+- [GitHub Integration](#github-integration)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [Configuration for Forks](#configuration-for-forks)
+- [Roadmap](#roadmap)
+- [Contact](#contact)
+- [License](#license)
 
-# The serverless function:
+---
 
-1. Receives a request from the portfolio.
-2. Reads the private GITHUB_TOKEN environment variable.
-3. Authenticates with the GitHub REST API.
-4. Retrieves the required GitHub data.
-5. Returns the data to the frontend as JSON.
+## Portfolio Sections
 
-This keeps the authentication credential out of the publicly accessible frontend source code.
+| Section | Description |
+|---|---|
+| **Hero / Introduction** | Animated intro with Typed.js role text and a Three.js particle canvas |
+| **About Me** | Background, interests, and story |
+| **Technical Skills** | Interactive Chart.js radar visualization |
+| **Featured Projects** | Cards with descriptions, tech tags, and links |
+| **Education Timeline** | Academic journey |
+| **Live GitHub Stats** | Followers, following, gists, and repo counts (live) |
+| **GitHub Language Analytics** | Chart.js breakdown of most-used languages |
+| **Recent GitHub Activity** | Live feed of recent public GitHub events |
+| **Contact Form** | EmailJS-powered, no custom backend required |
+| **Responsive Interface** | Adapts across desktop, tablet, and mobile |
 
+---
 
-# GitHub Integration
+## Tech Stack
 
-The portfolio retrieves live data for the GitHub account opullenceee.
+**Frontend**
+- **HTML5** — semantic structure
+- **CSS3** — layout, responsive design, transitions, visual effects
+- **Vanilla JavaScript** — app logic, DOM manipulation, API handling, interactivity
 
-The serverless function requests three datasets:
+**Animation & Visualization**
+- **[GSAP](https://greensock.com/gsap/)** + **ScrollTrigger** — advanced, scroll-based animation
+- **[AOS](https://michalsnik.github.io/aos/)** — scroll-reveal entrance animations
+- **[Three.js](https://threejs.org/)** — interactive particle canvas in the hero section
+- **[Typed.js](https://github.com/mattboldt/typed.js/)** — animated typing effects
+- **[Chart.js](https://www.chartjs.org/)** — skills radar and GitHub language charts
 
-GitHub Endpoint	Information
-/users/opullenceee	Profile information
-/users/opullenceee/repos	Repositories, sorted by recently updated
-/users/opullenceee/events/public	Recent public GitHub activity
+**Integrations & Infra**
+- **[EmailJS](https://www.emailjs.com/)** — contact form delivery, no backend needed
+- **[Vercel](https://vercel.com/)** — serverless function hosting, environment variables, deployment
+- **GitHub REST API** — live profile, repository, and activity data
 
-These responses are combined into a single JSON response containing:
+All frontend libraries are loaded via CDN in `index.html` — no build step or `npm install` required for the frontend.
 
+---
+
+## Why a Serverless Backend?
+
+The portfolio pulls **live data from the GitHub REST API**. Authenticated GitHub requests require a **private token**, and that token must never live in browser-accessible code.
+
+To solve this, GitHub requests are routed through a **Vercel Serverless Function**:
+
+```
+API/
+└── github.js
+```
+
+The token is stored securely as a Vercel environment variable (`GITHUB_TOKEN`) and is only ever read **server-side**, via `process.env.GITHUB_TOKEN`. It is never written into `index.html`, `script.js`, `style.css`, or committed to the repo.
+
+**Request flow:**
+
+```
+Browser (Portfolio UI)
+        │  request GitHub data
+        ▼
+Vercel Serverless Function (API/github.js)
+        │  uses private GITHUB_TOKEN
+        ▼
+GitHub REST API
+        │  profile / repos / public events
+        ▼
+Vercel Serverless Function
+        │  combined JSON response
+        ▼
+script.js  →  updates the Live GitHub section
+```
+
+---
+
+## GitHub Integration
+
+The function requests three datasets for the account `opullenceee` and merges them into one JSON response:
+
+| Endpoint | Data Retrieved |
+|---|---|
+| `GET /users/opullenceee` | Profile information |
+| `GET /users/opullenceee/repos?sort=updated&per_page=100` | Repositories, sorted by most recently updated |
+| `GET /users/opullenceee/events/public?per_page=8` | Recent public activity |
+
+**Combined response shape:**
+
+```json
 {
   "user": {},
   "repos": [],
   "events": []
 }
+```
 
-The frontend then uses this data to populate the GitHub section dynamically.
+`script.js` consumes this response to populate GitHub stats, the language chart, the repo list, and the recent activity feed.
 
-# API File
+**`API/github.js`:**
+- Authenticates with `GITHUB_TOKEN`
+- Fetches profile, repos, and public events in parallel
+- Combines the results into a single JSON payload
+- Returns a `500` with an error message if any request fails
 
-API/
-└── GitHub.js
+---
 
-The function uses the following environment variable:
+## Project Structure
 
-GITHUB_TOKEN
-
-The actual value is not stored in the repository.
-
-
-# Security
-
-A key part of the project’s architecture is keeping the GitHub authentication token private.
-
-The token is accessed server-side through:
-
-process.env.GITHUB_TOKEN
-
-rather than being written directly into script.js, index.html, or another frontend-accessible file.
-
-# Request flow
-
-Browser
-   │
-   │  Request
-   ▼
-Vercel Function
-   │
-   │  Private GITHUB_TOKEN
-   ▼
-GitHub API
-   │
-   │  Data
-   ▼
-Vercel Function
-   │
-   │  JSON
-   ▼
-Browser
-
-This separation allows the portfolio to display live GitHub information while keeping the authentication credential outside the client-side code.
-
-Never commit the actual GITHUB_TOKEN value to Git or expose it in frontend source files.
-
-
-# ✨ Project Structure
-
+```
 portfolio/
 │
 ├── API/
-│   └── GitHub.js          # Vercel serverless GitHub API function
+│   └── github.js        → Vercel serverless function for GitHub API requests
 │
-├── .hintrc                # Web development / linting configuration
-├── corrector.png          # Portfolio asset
-├── index.html             # Main portfolio page
-├── README.md              # Project documentation
-├── script.js              # Frontend logic, animations, API & form handling
-├── style.css              # Portfolio styling and responsive layouts
-└── LICENSE                # MIT License
+├── .hintrc               → Web development / linting configuration
+├── character.png         → Portfolio pixel-art character asset
+├── index.html             → Main page markup and structure
+├── script.js               → Frontend logic, animations, GitHub data handling, charts, contact form
+├── style.css                → Styling, layout, animations, responsive design
+└── README.md                 → Project documentation
+```
 
+---
 
-# Features
+## Getting Started
 
-# Interactive Hero
+### Prerequisites
+- A modern browser
+- [Node.js](https://nodejs.org/) (for running the Vercel CLI, if testing the API locally)
+- A GitHub [Personal Access Token](https://github.com/settings/tokens) (for local API testing)
 
-A visually animated introduction combining typography, motion, and a Three.js particle canvas.
+### Running the Frontend Locally
 
-# Skills Visualization
+Since the site talks to an API, it should be served through a local server rather than opened directly as a `file://` URL.
 
-Technical skills are represented through interactive Chart.js visualizations rather than only being presented as text.
-
-# Project Showcase
-
-Featured projects are presented with descriptions, technologies, and links to demonstrate practical development work.
-
-# Live GitHub Dashboard
-
-GitHub information is fetched dynamically through the Vercel serverless API, allowing the portfolio to display current:
-
-* Profile information
-* Repository data
-* Language statistics
-* Recent public activity
-* GitHub-related metrics
-
-# Animation System
-
-Multiple animation tools work together to create a polished scrolling experience:
-
-* GSAP
-* ScrollTrigger
-* AOS
-* Typed.js
-* Three.js
-
-# Contact Form
-
-EmailJS handles contact form delivery without requiring a traditional custom backend for sending messages.
-
-# Responsive Design
-
-The interface is designed to adapt across desktop, tablet, and mobile screen sizes.
-
-
-# ✨ Tools Used
-
-Tool	Purpose
-VS Code	Development environment
-Git	Version control
-GitHub	Source control and repository hosting
-Vercel	Serverless API hosting and deployment
-GitHub Pages	Static frontend hosting, where applicable
-Figma	Interface and design planning
-Canva	Supporting visual assets
-
-
-# Running Locally
-
-No frontend build system is required.
-
-Because the portfolio communicates with an API, it should be served through a local development server rather than opened directly with file://.
-
-Python
-
+```bash
+# Python
 python3 -m http.server 8000
 
-Node.js
-
+# or Node.js
 npx serve .
+```
 
-# Then open:
+Then open **http://localhost:8000**.
 
-http://localhost:8000
+### Running the API Locally
 
-Running the Vercel API locally
+To test the GitHub integration end-to-end, use the [Vercel CLI](https://vercel.com/docs/cli):
 
-If you want to test the serverless GitHub integration locally, use the Vercel CLI and configure the required environment variable:
-
+```bash
+npm i -g vercel
 vercel dev
+```
 
-The GITHUB_TOKEN should be configured as an environment variable and must not be committed to the repository.
+Make sure `GITHUB_TOKEN` is available in your local environment (see below).
 
+---
 
-# Configuration
+## Environment Variables
 
-If you fork this project, several values should be updated.
+| Variable | Required | Description |
+|---|---|---|
+| `GITHUB_TOKEN` | ✅ | GitHub personal access token used server-side by `API/github.js` to authenticate requests to the GitHub REST API |
 
-# GitHub Username
+Create a `.env` file locally (already gitignored) or set it via:
 
-The current portfolio is configured for:
+```bash
+vercel env add GITHUB_TOKEN
+```
 
-opullenceee
+⚠️ **Never commit your actual token.** It should only ever exist as an environment variable, both locally and in production.
 
-Update the username in the relevant frontend and API configuration if you want the GitHub section to represent another account.
+---
 
-# GitHub Token
+## Deployment
 
-The backend expects:
+**Backend (Vercel)**
+The serverless API in `API/github.js` deploys automatically as a Vercel Function. Configure `GITHUB_TOKEN` in your Vercel project's Environment Variables before deploying to production.
 
-GITHUB_TOKEN
+**Frontend**
+The static frontend can be hosted on:
+- Vercel
+- GitHub Pages
+- Netlify
+- Any static hosting provider
 
-Configure this through Vercel’s environment variables.
+The frontend simply needs to point at your deployed `/API/github.js` endpoint to fetch live GitHub data.
 
-Do not replace it with the actual token inside GitHub.js.
+---
 
-EmailJS
+## Configuration for Forks
 
-# The contact form uses:
+If you fork this project, update the following:
 
-* Public key
-* Service ID
-* Template ID
+| What | Where |
+|---|---|
+| **GitHub username** | Update `opullenceee` in `API/github.js` and any related frontend references |
+| **GITHUB_TOKEN** | Set your own token via Vercel Environment Variables |
+| **EmailJS credentials** | Replace the Public Key, Service ID, and Template ID in `script.js` with your own EmailJS account details |
+| **Assets** | Confirm asset paths (like `character.png`) match their references in `index.html` / `style.css` |
 
-Replace the existing configuration with your own EmailJS credentials if you fork the project.
+---
 
-# Assets
+## Development Notes
 
-Make sure all referenced assets exist at their expected paths. If an asset is moved, update its corresponding reference in the HTML or CSS.
+- Live GitHub data depends on GitHub REST API availability and rate limits.
+- The GitHub token is intentionally kept server-side and is never exposed to the client.
+- Third-party libraries are loaded via CDN; Google Fonts are loaded externally.
+- The contact form depends on an active EmailJS service configuration.
+- This is an evolving project — expect ongoing changes as new skills and projects are added.
 
+---
 
-# Deployment
+## Roadmap
 
-The project can be deployed using a combination of static hosting and Vercel’s serverless infrastructure.
+- [ ] Expand project case studies with more detail
+- [ ] Add more in-depth project demos
+- [ ] Improve accessibility
+- [ ] Continue refining responsive layouts
+- [ ] Expand GitHub analytics
+- [ ] Improve performance and loading behavior
+- [ ] Add new projects and experiments
+- [ ] Continue polishing the overall visual experience
 
-# Vercel
+---
 
-Vercel hosts the serverless API responsible for securely communicating with GitHub.
+## Contact
 
-The production deployment should have the following environment variable configured:
+| Platform | Handle |
+|---|---|
+| **Email** | idkitsizza@gmail.com |
+| **GitHub** | [@opullenceee](https://github.com/opullenceee) |
+| **LinkedIn** | [Opullencee](https://linkedin.com/in/Opullencee) |
+| **Instagram** | [@opullenceee](https://instagram.com/opullenceee) |
 
-GITHUB_TOKEN
+---
 
-# Frontend
+## Collaboration
 
-The frontend can be deployed through a static hosting provider such as GitHub Pages, Vercel, Netlify, or another compatible platform.
+This is primarily a personal portfolio, but constructive feedback is welcome:
 
-The frontend communicates with the deployed Vercel API endpoint to retrieve GitHub data.
-
-
-# Development Notes
-
-* GitHub data depends on the availability and response of the GitHub REST API.
-* The GitHub authentication token is intentionally kept server-side.
-* Third-party frontend libraries are loaded through CDNs.
-* Google Fonts are loaded externally.
-* The contact form depends on the configured EmailJS service.
-* The GitHub Profile Analyzer project may contain a placeholder link until its dedicated deployment is available.
-* The portfolio is an evolving project and will continue to change as new skills and projects are added.
-
-
-# Roadmap
-
-The portfolio will continue evolving alongside my development journey.
-
-* Expand project case studies
-* Add more detailed project demonstrations
-* Improve accessibility
-* Continue refining responsive layouts
-* Expand GitHub analytics
-* Improve performance and loading behavior
-* Add new projects and experiments
-* Continue improving the visual experience
-
-
-# Contact
-
-If you’d like to connect, explore my projects, or follow my development journey:
-
-Platform	Link
-Email	idkitsizza@gmail.com
-GitHub	@opullenceee⁠￼
-LinkedIn	Opullencee⁠￼
-Instagram	@opullencee⁠￼
-
-
-# 🤝 Collaboration
-
-This is primarily a personal portfolio project, but constructive feedback and meaningful contributions are welcome.
-
-If you find a bug or have an improvement in mind:
-
-1. Open an issue describing the problem or suggestion.
+1. Open an issue describing the bug or suggestion.
 2. Fork the repository.
-3. Create a focused branch for your changes.
+3. Create a focused branch for your change.
 4. Make and test your changes.
 5. Submit a pull request with a clear explanation.
 
-Please keep contributions consistent with the project’s existing architecture, design, and code quality.
+Please keep contributions consistent with the project's existing architecture and code style.
 
+---
 
-# License
+## License
 
-This project is licensed under the MIT License.
-
-See LICENSE⁠￼ for the complete license text.
+This project is licensed under the MIT License. Add a `LICENSE` file to the repo root if one isn't present yet.
 
 <div align="center">
 
-# Built by Izza Usman
+**Built by Izza Usman**
 
-Learning. Building. Experimenting. Improving.
+*Learning • Building • Experimenting • Improving*
 
 </div>
