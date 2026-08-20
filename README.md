@@ -33,7 +33,7 @@ I'm a Grade 11 ICS student building toward Computer Science, AI, and software de
 
 ## Live Preview
 
-> Add your deployed link here once live, e.g. `https://izzausman.vercel.app`
+> https://opullencee-portfolio.vercel.app/
 
 ---
 
@@ -284,7 +284,7 @@ If you fork this project, update the following:
 | **Email** | idkitsizza@gmail.com |
 | **GitHub** | [@opullenceee](https://github.com/opullenceee) |
 | **LinkedIn** | [Opullencee](https://linkedin.com/in/Opullencee) |
-| **Instagram** | [@opullenceee](https://instagram.com/opullenceee) |
+| **Instagram** | [@opullenceee](https://instagram.com/opullencee) |
 
 ---
 
