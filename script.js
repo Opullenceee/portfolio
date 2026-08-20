@@ -7,6 +7,18 @@
   const GH_USERNAME = "opullenceee";
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------------- Shared GitHub data fetch ----------------*/
+  let githubDataPromise = null;
+  function getGithubData(){
+    if (!githubDataPromise) {
+      githubDataPromise = fetch("/api/github").then(res => {
+        if (!res.ok) throw new Error(`Backend API error ${res.status}`);
+        return res.json();
+      });
+    }
+    return githubDataPromise;
+  }
+
   /* ---------------- Loader ---------------- */
   window.addEventListener("load", () => {
     const loader = document.getElementById("loader");
@@ -333,37 +345,69 @@ if(menuToggle && navLinksList){
     });
   })();
 
-  /* ---------------- Chart.js: Skills radar ---------------- */
+  /* ---------------- Chart.js: Skills radar (auto, from GitHub) ----------------
+     Pulls real language byte-counts from every non-fork repo via /api/github,
+     picks the top 6 languages by volume, and scales the biggest one to 100
+     so the chart always reflects what's actually in the GitHub account —
+     no manual numbers to maintain. */
   (function skillsRadar(){
     const el = document.getElementById("skillsRadar");
     if (!el || !window.Chart) return;
-    new Chart(el, {
-      type: "radar",
-      data: {
-        labels: ["HTML", "CSS", "JavaScript", "Python", "C++", "UI/UX"],
-        datasets: [{
-          label: "Proficiency",
-          data: [95, 92, 85, 55, 60, 78],
-          backgroundColor: "rgba(203,141,149,0.28)",
-          borderColor: "#A7626B",
-          borderWidth: 2,
-          pointBackgroundColor: "#79513A",
-          pointRadius: 4,
-        }],
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          r: {
-            angleLines: { color: "rgba(91,49,19,0.12)" },
-            grid: { color: "rgba(91,49,19,0.12)" },
-            pointLabels: { color: "#5B3113", font: { family: "DM Sans", size: 12, weight: "600" } },
-            ticks: { display: false, backdropColor: "transparent" },
-            suggestedMin: 0, suggestedMax: 100,
+
+    const MAX_SKILLS = 6;
+    const MIN_SCORE = 15; // keep even minor languages visible on the radar
+
+    function renderRadar(labels, data){
+      new Chart(el, {
+        type: "radar",
+        data: {
+          labels,
+          datasets: [{
+            label: "GitHub language usage",
+            data,
+            backgroundColor: "rgba(203,141,149,0.28)",
+            borderColor: "#A7626B",
+            borderWidth: 2,
+            pointBackgroundColor: "#79513A",
+            pointRadius: 4,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            r: {
+              angleLines: { color: "rgba(91,49,19,0.12)" },
+              grid: { color: "rgba(91,49,19,0.12)" },
+              pointLabels: { color: "#5B3113", font: { family: "DM Sans", size: 12, weight: "600" } },
+              ticks: { display: false, backdropColor: "transparent" },
+              suggestedMin: 0, suggestedMax: 100,
+            },
           },
         },
-      },
+      });
+    }
+
+    getGithubData().then(github => {
+      const languages = github.languages || {};
+      const entries = Object.entries(languages).sort((a, b) => b[1] - a[1]);
+
+      if (!entries.length) {
+        el.parentElement.innerHTML = `<p class="gh-loading">Not enough public language data yet.</p>`;
+        return;
+      }
+
+      const top = entries.slice(0, MAX_SKILLS);
+      const maxBytes = top[0][1];
+
+      const labels = top.map(([lang]) => lang);
+      const data = top.map(([, bytes]) =>
+        Math.max(MIN_SCORE, Math.round((bytes / maxBytes) * 100))
+      );
+
+      renderRadar(labels, data);
+    }).catch(() => {
+      el.parentElement.innerHTML = `<p class="gh-loading">Couldn't load GitHub skills right now.</p>`;
     });
   })();
 
@@ -390,19 +434,9 @@ if(menuToggle && navLinksList){
       }
       return "just now";
     }
-async function fetchJSON() {
-  const res = await fetch("/api/github")
-
-  if (!res.ok) {
-    throw new Error(`Backend API error ${res.status}`);
-  }
-
-  return res.json();
-}
-
     async function loadGitHub(){
       try {
-      const github = await fetchJSON();
+      const github = await getGithubData();
 
 const user = github.user;
 const repos = github.repos;
